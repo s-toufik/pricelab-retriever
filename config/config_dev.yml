@@ -1,0 +1,32 @@
+app:
+  base_configuration:
+    run: async
+    primary_database_type: in_memory
+    secondary_database_type: in_disk
+  external_api_registery:
+    - source: alpha vantage
+      base_url: https://www.alphavantage.co
+      timeout: 5
+      retry: 3
+      auth:
+        type: __token__
+        key_name: api_token
+        key_value: ALPHA_VANTAGE_API_KEY
+      endpoints:
+        - name: time series intraday
+          path: /query
+          method: GET
+          params:
+            function: TIME_SERIES_INTRADAY
+            interval: 5min
+    - source: yahoo finance
+      base_url: https://query1.finance.yahoo.com
+      timeout: 5
+      retry: 3
+      auth:
+        type: __none__
+      endpoints:
+        - name: chart
+          path: /v8/finance/chart
+          method: GET
+          params: null

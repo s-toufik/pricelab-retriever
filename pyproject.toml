@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pricelab-retriever"
+version = "0.1.0.dev0"
+authors = [
+    { name="Toufik Saouchi", email="toufik.saouchi@gmail.com" },
+]
+description = "description"
+readme = "README.md"
+requires-python = ">=3.14"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+dependencies = [
+    "numpy",
+    "python-dotenv",
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic>=2",
+    "pricelab-core>=0.2.1"
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "hypothesis>=6.151.9",
+    "pytest-asyncio",
+    "ruff",
+    "mypy"
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.urls]
+Homepage = "https://github.com/s-toufik/pricelab-retriever"
