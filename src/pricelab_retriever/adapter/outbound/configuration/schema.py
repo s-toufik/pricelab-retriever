@@ -27,5 +27,6 @@ class AppBaseConfigurationSchema(BaseModel):
     primary_database_type: str
     secondary_database_type: str
 
-class AppConfigurationSchema(AppBaseConfigurationSchema):
-    api_configurations: List[ApiConfigurationSchema]
+class AppConfigurationSchema(BaseModel):
+    base: AppBaseConfigurationSchema
+    external_api_registery: List[ApiConfigurationSchema]
