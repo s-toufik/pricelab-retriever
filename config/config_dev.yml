@@ -1,5 +1,5 @@
 app:
-  base_configuration:
+  base:
     run: async
     primary_database_type: in_memory
     secondary_database_type: in_disk
