@@ -3,16 +3,16 @@ from dataclasses import dataclass
 
 from pricelab_retriever.domain.model.authentication.authentication import Auth
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class ApiConfiguration:
     source: str
     base_url: str
     timeout: int
     retry: int
-    auth: Auth
-    endpoint: List[Endpoint]
+    endpoints: List[Endpoint]
+    auth: Auth | None = None
 
-@dataclass
+@dataclass(slots=True)
 class Endpoint:
     name: str
     path: str

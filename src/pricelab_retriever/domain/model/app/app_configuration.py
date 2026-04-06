@@ -11,5 +11,6 @@ class AppBaseConfiguration:
     secondary_database_type: str
 
 @dataclass(frozen=True, slots=True)
-class AppConfiguration(AppBaseConfiguration):
-    api_configuration: List[ApiConfiguration]
+class AppConfiguration:
+    base: AppBaseConfiguration
+    external_api_registery: List[ApiConfiguration]
