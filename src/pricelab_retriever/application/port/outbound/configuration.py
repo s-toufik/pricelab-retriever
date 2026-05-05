@@ -1,10 +1,7 @@
 from abc import ABC, abstractmethod
 
-from pricelab_retriever.domain.model.external_api.api_configuration import ApiConfiguration
-
-
-class BaseConfiguration(ABC):
+class Configuration(ABC):
 
     @abstractmethod
-    def load(self) -> ApiConfiguration:
+    def load(self) -> object:
         pass
