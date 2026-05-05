@@ -1,32 +1,62 @@
-app:
-  base:
-    run: async
-    primary_database_type: in_memory
-    secondary_database_type: in_disk
-  external_api_registery:
-    - source: alpha vantage
-      base_url: https://www.alphavantage.co
-      timeout: 5
-      retry: 3
-      auth:
-        type: __token__
-        key_name: api_token
-        key_value: ALPHA_VANTAGE_API_KEY
-      endpoints:
-        - name: time series intraday
-          path: /query
-          method: GET
-          params:
-            function: TIME_SERIES_INTRADAY
-            interval: 5min
-    - source: yahoo finance
-      base_url: https://query1.finance.yahoo.com
-      timeout: 5
-      retry: 3
-      auth:
-        type: __none__
-      endpoints:
-        - name: chart
-          path: /v8/finance/chart
-          method: GET
-          params: null
+data_providers:
+  - &alpha_vantage
+    name: alpha_vantage
+    base_url: https://www.alphavantage.co
+    timeout: 5
+    retry: 3
+    auth:
+      type: __token__
+      key_name: api_token
+      key_value: ALPHA_VANTAGE_API_KEY
+
+  - &yahoo_finance
+    name: yahoo_finance
+    base_url: https://query1.finance.yahoo.com
+    timeout: 5
+    retry: 3
+    auth:
+      type: __none__
+
+endpoints:
+  - &intraday_series
+    name: intraday_series
+    provider: *alpha_vantage
+    path: /query
+    method: GET
+
+  - &chart
+    name: chart
+    provider: *yahoo_finance
+    path: /v8/finance/chart
+    method: GET
+
+data_use_cases:
+  - &get_intraday_stock_mock
+    name: get_intraday_stock_mock
+    endpoint: *intraday_series
+    parameters:
+      function: TIME_SERIES_INTRADAY
+      symbol: IBM
+      interval: 5min
+      apikey: demo
+
+  - &get_intraday_chart_mock
+    name: get_intraday_quote_mock
+    endpoint: *chart
+    parameters:
+      symbol: IBM
+
+app_configuration:
+  run: async
+  primary_database_type: in_memory
+  secondary_database_type: in_disk
+  data_providers:
+    {
+      alpha_vantage: *alpha_vantage,
+      yahoo_finance: *yahoo_finance
+    }
+  data_use_cases:
+    {
+      get_intraday_stock_mock: *get_intraday_stock_mock,
+      get_intraday_chart_mock: *get_intraday_chart_mock
+    }
