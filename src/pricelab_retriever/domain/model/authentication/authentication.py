@@ -19,3 +19,7 @@ class TokenAuth(Auth):
 class BasicAuth(Auth):
     username: str
     password: str
+
+@dataclass(frozen=True, slots=True)
+class NoneAuth(Auth):
+    pass
