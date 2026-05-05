@@ -1,32 +1,13 @@
 from pydantic import BaseModel
-from typing import Optional, List, Dict
+from typing import Dict
 
-class AuthSchema(BaseModel):
-    type: Optional[str] = None
-    username: Optional[str] = None
-    password: Optional[str] = None
-    key_name: Optional[str] = None
-    key_value: Optional[str] = None
-
-class EndpointSchema(BaseModel):
-    name: str
-    path: str
-    method: str
-    params: Optional[Dict] = None
-
-class ApiConfigurationSchema(BaseModel):
-    source: str
-    base_url: str
-    timeout: int
-    retry: int
-    auth: AuthSchema
-    endpoints: List[EndpointSchema]
-
-class AppBaseConfigurationSchema(BaseModel):
-    run: str
-    primary_database_type: str
-    secondary_database_type: str
+from pricelab_retriever.domain.model.app.app_configuration import DatabaseType
+from pricelab_retriever.domain.model.data_provider.base import BaseProvider
+from pricelab_retriever.domain.model.data_use_case.use_case import UseCase
 
 class AppConfigurationSchema(BaseModel):
-    base: AppBaseConfigurationSchema
-    external_api_registery: List[ApiConfigurationSchema]
+    run: str
+    primary_database_type: DatabaseType
+    secondary_database_type: DatabaseType
+    data_providers: Dict[str, BaseProvider]
+    data_use_cases: Dict[str, UseCase]
