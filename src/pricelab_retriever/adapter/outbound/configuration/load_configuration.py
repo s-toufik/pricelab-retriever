@@ -2,15 +2,14 @@ import threading
 from typing import Dict, Any
 
 from pricelab_core.adapter.outbound.file_handler.handler import Handler
-from pricelab_core.adapter.outbound.logger.logger_instance import logger
+from pricelab_core.bootstrap.common import logger
 
-from pricelab_retriever.adapter.outbound.configuration.schema import AppConfigurationSchema
-from pricelab_retriever.adapter.outbound.configuration.schema_domain_mapper import MapperDomainSchema
-from pricelab_retriever.application.port.outbound.configuration import Configuration
+from pricelab_retriever.adapter.outbound.configuration.schema import AppConfigurationSchema, MapperDomainSchema
 from pricelab_retriever.domain.model.app.app_configuration import AppConfiguration
 
+TAG: str = "app_configuration"
 
-class LoadConfiguration(Configuration):
+class LoadConfiguration:
     _instance = None
     _lock = threading.Lock()
 
@@ -30,15 +29,15 @@ class LoadConfiguration(Configuration):
         if self._cached_config is None:
             try:
                 configuration = self._read_and_validate_configuration()
-                self._cached_config = MapperDomainSchema().map_to_app_configuration(configuration)
-            except Exception as e:
-                logger.error(e)
+                self._cached_config = MapperDomainSchema().map(configuration)
+            except Exception as exception:
+                logger.error(exception.__str__())
         return self._cached_config
 
     def reload(self) -> AppConfiguration | None:
         with self._lock:
             configuration = self._read_and_validate_configuration()
-        self._cached_config = MapperDomainSchema().map_to_app_configuration(configuration)
+        self._cached_config = MapperDomainSchema().map(configuration)
         return self._cached_config
 
     def _read_configuration_file(self) -> Dict[str, Any]:
@@ -47,4 +46,4 @@ class LoadConfiguration(Configuration):
 
     def _read_and_validate_configuration(self) -> AppConfigurationSchema:
         raw_configuration = self._read_configuration_file()
-        return AppConfigurationSchema(**raw_configuration["app_configuration"])
+        return AppConfigurationSchema(**raw_configuration[TAG])
