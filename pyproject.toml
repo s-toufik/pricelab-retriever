@@ -17,12 +17,11 @@ classifiers = [
 ]
 license = "MIT"
 dependencies = [
-    "numpy",
     "python-dotenv",
     "fastapi",
     "uvicorn[standard]",
     "pydantic>=2",
-    "pricelab-core>=0.3.1"
+    "pricelab-core>=0.4.0"
 ]
 
 [dependency-groups]
@@ -31,11 +30,13 @@ dev = [
     "hypothesis>=6.151.9",
     "pytest-asyncio",
     "ruff",
+    "mypy",
+    "Pyright",
     "mypy"
 ]
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 target-version = "py314"
 
 [tool.mypy]
