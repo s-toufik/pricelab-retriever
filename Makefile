@@ -10,14 +10,17 @@ install:
 install_dev:
 	uv sync --group dev
 
-run:
-	uv run uvicorn price.main:app --reload
-
 test:
 	uv run pytest
 
 lint:
 	uv run ruff check .
+
+link:
+	uv run pyright .
+
+typing:
+	uv run mypy .
 
 format:
 	uv run ruff format .

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pricelab-retriever"
-version = "0.1.0.dev0"
+version = "0.1.0"
 authors = [
     { name="Toufik Saouchi", email="toufik.saouchi@gmail.com" },
 ]
@@ -17,12 +17,11 @@ classifiers = [
 ]
 license = "MIT"
 dependencies = [
-    "numpy",
     "python-dotenv",
     "fastapi",
     "uvicorn[standard]",
     "pydantic>=2",
-    "pricelab-core>=0.2.2"
+    "pricelab-core>=0.4.0"
 ]
 
 [dependency-groups]
@@ -31,11 +30,13 @@ dev = [
     "hypothesis>=6.151.9",
     "pytest-asyncio",
     "ruff",
+    "mypy",
+    "Pyright",
     "mypy"
 ]
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 target-version = "py314"
 
 [tool.mypy]
