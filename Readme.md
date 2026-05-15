@@ -1,0 +1,144 @@
+# Documentation
+
+Summary of the documentation
+- [Description](#description)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+
+## Description
+``Pricelab-retriever`` is a microservice within the PriceLab ecosystem. It's a configurable, resilient data-fetching service that retrieves financial market data from heterogeneous sources (REST APIs, databases, files) based on YAML-declared use cases, with built-in retry, circuit-breaking, and observability.
+
+## Installation
+...
+
+## Configuration
+
+Configuration of the microservice is done using a ``.yml`` file using the env variable ``CONFIGURATION_FILE_PATH``. The configuration file allow to configure multiple data providers as well as the data use case to be used, bellow is a sample of the configuration file that can be used with the retriever microservice:
+
+<details>
+<summary>Configuration file example</summary>
+
+``` yml
+ data_source:
+  - &alpha_vantage
+    name: alpha_vantage
+    type: api
+    base_url: https://www.alphavantage.co
+    timeout: 5
+    retry: 3
+    auth:
+      type: token
+      key_name: api_token
+      key_value: ${ALPHA_VANTAGE_API_KEY}
+
+  - &yahoo_finance
+    name: yahoo_finance
+    type: api
+    base_url: https://query1.finance.yahoo.com
+    timeout: 5
+    retry: 3
+    auth:
+      type: none
+
+    - &local_fs
+      name: local_fs
+      type: file
+      engine: local
+      base_path: ./data/files
+      auth:
+        type: none
+
+    - &postgres
+      name: postgres
+      type: database
+      engine: postgres_sql
+      host: ${DB_HOST}
+      port: 5432
+      default_name: ${DB_NAME}
+      pool:
+        min: 2
+        max: 10
+      auth:
+        type: basic
+        username: ${DB_USER}
+        password: ${DB_PASSWORD}
+    
+operation:
+
+  - &intraday_series
+    name: intraday_series
+    source: *alpha_vantage
+    type: api
+    path: /query
+    method: GET
+
+    - &intraday_chart
+      name: yahoo_chart
+      source: *yahoo_finance
+      type: api
+      path: /v8/finance/chart
+      method: GET
+
+    - &read_csv_prices
+      name: read_csv_prices
+      source: *local_fs
+      type: file
+      action: read
+
+use_case:
+
+  - &get_intraday_stock_ibm
+    name: get_intraday_stock
+    operation: *intraday_series
+    parameters:
+      function: TIME_SERIES_INTRADAY
+      symbol: IBM
+      interval: 5min
+
+    - &get_intraday_chart_ibm
+      name: get_intraday_chart
+      operation: *intraday_chart
+      parameters:
+        symbol: IBM
+
+    - &load_price_ibm
+      name: load_price_csv
+      operation: *read_csv_prices
+      parameters:
+        file_name: IBM_2024-01-15.csv
+        symbol: IBM
+        date: "2024-01-15"
+
+telemetry: &telemetry
+    collector: http://localhost:4317
+
+app_configuration:
+  env: debug
+  run: async
+  datasource:
+    {
+      api:
+        { alpha_vantage: *alpha_vantage,
+          yahoo_finance: *yahoo_finance },
+      file: {
+        local_fs: *local_fs
+      },
+      cache: {},
+      database: {
+        postgres: *postgres
+      }
+    }
+  use_case:
+    {
+      get_intraday_stock: [*get_intraday_stock_ibm],
+      get_intraday_chart: [*get_intraday_chart_ibm],
+      load_price: [*load_price_ibm]
+    }
+  telemetry: *telemetry
+```
+
+</details>
+
+## Usage
+...
