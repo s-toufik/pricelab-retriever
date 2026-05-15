@@ -42,7 +42,6 @@ data_source:
       username: ${DB_USER}
       password: ${DB_PASSWORD}
 
-
 operation:
 
   - &intraday_series
@@ -90,12 +89,12 @@ use_case:
       date: "2024-01-15"
 
 telemetry: &telemetry
-    collector: http://localhost:4317
+  collector: http://localhost:4317
 
 app_configuration:
   env: debug
   run: async
-  data_source:
+  datasource:
     {
       api:
         { alpha_vantage: *alpha_vantage,
@@ -105,7 +104,7 @@ app_configuration:
       },
       cache: {},
       database: {
-#        postgres: *postgres
+        postgres: *postgres
       }
     }
   use_case:
