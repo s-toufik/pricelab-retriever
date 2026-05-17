@@ -1,7 +1,7 @@
 name: Release
 description: Track a new release
 title: "RELEASE - "
-labels: ["RELEASE"]
+labels: ["release/"]
 assignees: []
 
 body:
@@ -9,7 +9,7 @@ body:
     id: version
     attributes:
       label: Version
-      placeholder: e.g. v1.2.0
+      placeholder: e.g. 1.2.0
     validations:
       required: true
 

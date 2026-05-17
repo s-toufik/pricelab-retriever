@@ -48,3 +48,6 @@ publish:
 	@echo "INFO: Make sure that UV_PUBLISH_TOKEN env variable is set"
 	export UV_PUBLISH_TOKEN=$$RELEASE_PYPI_TOKEN && \
 	uv publish
+
+run:
+	uvicorn pricelab_retriever.bootstrap.start_up.application:app --reload

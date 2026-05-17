@@ -1,4 +1,3 @@
-from dataclasses import asdict
 from fastapi import APIRouter, Depends
 from pricelab_core.infrastructure.http.context.request_context import request_id_ctx
 
@@ -21,7 +20,7 @@ class IntradayStock:
         self.router.add_api_route("/intraday", self.get_intraday_stock, methods=["GET"])
 
     async def get_intraday_stock(self, request: IntradayStockRequest = Depends()) -> CandleSeriesResponse:
-        request_id = request_id_ctx.get()
+        request_id = request_id_ctx.get() or "N/A"
         logger.info(f"[{request_id}] request_received")
-        candle_series = await self._use_case(symbol=request.symbol, interval=request.interval)
-        return CandleSeriesResponse(**{"request_id": request_id, **asdict(candle_series)})
+        candles = await self._use_case(symbol=request.symbol, interval=request.interval)
+        return CandleSeriesResponse(request_id=request_id, payload=candles)

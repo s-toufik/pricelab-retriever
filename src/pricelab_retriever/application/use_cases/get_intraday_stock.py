@@ -1,4 +1,5 @@
-from pricelab_core.domain.model.candles.candle_series import CandleSeries
+from pricelab_core.domain.model.candles.candle import Candle
+from sqlalchemy import Sequence
 
 from pricelab_retriever.application.port.outbound.market_data_fetcher import MarketDataFetcher
 
@@ -7,7 +8,7 @@ class GetIntradayStockUseCase:
     def __init__(self, market_data_fetcher: MarketDataFetcher) -> None:
         self._fetcher = market_data_fetcher
 
-    async def __call__(self, symbol: str, interval: str) -> CandleSeries:
+    async def __call__(self, symbol: str, interval: str) -> Sequence[Candle]:
 
         params = {
             "function": "TIME_SERIES_INTRADAY",
