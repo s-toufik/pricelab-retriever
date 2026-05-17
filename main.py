@@ -11,7 +11,9 @@ from pricelab_core.infrastructure.http.port.http_client import HttpClient
 from pricelab_core.infrastructure.telemetry.adapter.open_telemetry import OpenTelemetryManager
 from pricelab_core.infrastructure.telemetry.port.telemetry import Telemetry
 
-from pricelab_retriever.bootstrap.startup.common import load_application_configuration
+from pricelab_retriever.bootstrap.application_configuration.load_application_configuration import (
+    load_application_configuration,
+)
 
 
 async def main():
