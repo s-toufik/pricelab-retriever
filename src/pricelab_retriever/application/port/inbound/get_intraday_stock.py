@@ -1,7 +1,7 @@
-from typing import Protocol
+from typing import Protocol, Sequence
 
-from pricelab_core.domain.model.candles.candle_series import CandleSeries
+from pricelab_core.domain.model.candles.candle import Candle
 
 
 class GetIntradayStock(Protocol):
-    async def __call__(self, symbol: str, interval: str) -> CandleSeries: ...
+    async def __call__(self, symbol: str, interval: str) -> Sequence[Candle]: ...
