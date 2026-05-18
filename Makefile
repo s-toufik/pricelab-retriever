@@ -50,4 +50,4 @@ publish:
 	uv publish
 
 run:
-	uvicorn pricelab_retriever.bootstrap.start_up.application:app --reload
+	uvicorn pricelab_retriever.bootstrap.startup.application:app --reload
