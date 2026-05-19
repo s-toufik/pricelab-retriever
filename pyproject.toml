@@ -21,7 +21,7 @@ dependencies = [
     "fastapi",
     "uvicorn[standard]",
     "pydantic>=2",
-    "pricelab-core==0.4.23"
+    "pricelab-core==0.4.24"
 ]
 
 [dependency-groups]

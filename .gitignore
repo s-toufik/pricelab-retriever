@@ -20,3 +20,5 @@ wheels/
 
 # Dev
 .hypothesis
+sandbox
+sandbox/*
