@@ -27,7 +27,9 @@ class Container:
 
     def _create_http_client(self) -> None:
         self._alpha_vantage_telemetry = OpenTelemetryManager(service_name="alpha-vantage")
-        self._alpha_vantage_client = AlphaVantageClientFactory(self._application_configuration, self._alpha_vantage_telemetry).create()
+        self._alpha_vantage_client = AlphaVantageClientFactory(
+            self._application_configuration, self._alpha_vantage_telemetry
+        ).create()
 
     async def start(self) -> None:
         await self._alpha_vantage_client.start()

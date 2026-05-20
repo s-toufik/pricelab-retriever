@@ -11,6 +11,6 @@ class AlphaVantageMarketDataFetcher:
         self._client = client
         self._mapper = mapper
 
-    async def fetch_intraday(self, symbol: str, params: Dict[str, str]) ->  Sequence[Candle]:
+    async def fetch_intraday(self, symbol: str, params: Dict[str, str]) -> Sequence[Candle]:
         raw: dict = await self._client.get("/query", params=params)
         return self._mapper.to_candles(raw, symbol)
