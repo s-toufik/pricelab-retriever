@@ -1,5 +1,5 @@
+from typing import Sequence
 from pricelab_core.domain.model.candles.candle import Candle
-from sqlalchemy import Sequence
 
 from pricelab_retriever.application.port.outbound.market_data_fetcher import MarketDataFetcher
 
