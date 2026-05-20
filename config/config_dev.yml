@@ -10,6 +10,17 @@ connector:
       key_name: api_token
       key_value: ${ALPHA_VANTAGE_API_KEY}
 
+  - &twelve_data
+    name: twelve_data
+    type: api
+    base_url: https://api.twelvedata.com
+    timeout: 5
+    retry: 3
+    auth:
+      type: token
+      key_name: api_token
+      key_value: ${ALPHA_VANTAGE_API_KEY}
+
   - &yahoo_finance
     name: yahoo_finance
     type: api
@@ -50,8 +61,8 @@ connector:
       type: none
 
 operation:
-  - &intraday_stock
-    name: intraday_series
+  - &alpha_vantage_intraday_stock
+    name: intraday_stock
     connector: *alpha_vantage
     endpoint: /query
     method: GET
@@ -59,8 +70,19 @@ operation:
       function: TIME_SERIES_INTRADAY
       symbol: ["IBM"]
       interval: 5min
+      apikey: demo
 
-  - &intraday_chart
+  - &twelve_data_intraday_stock
+    name: intraday_stock
+    connector: *twelve_data
+    endpoint: /time_series
+    method: GET
+    parameters:
+      symbol: [ "AAPL" ]
+      interval: 5min
+      apikey: demo
+
+  - &yahoo_finance_intraday_chart
     name: yahoo_chart
     connector: *yahoo_finance
     endpoint: /v8/finance/chart
@@ -71,12 +93,12 @@ operation:
 cronjob:
   - &get_intraday_stock
     name: get_intraday_stock
-    operation: *intraday_stock
+    operation: *twelve_data_intraday_stock
     cron: "*/5 9-17 * * 1-5"
 
   - &get_intraday_chart
     name: get_intraday_chart
-    operation: *intraday_chart
+    operation: *yahoo_finance_intraday_chart
     cron: "*/5 9-17 * * 1-5"
 
 app_configuration:
@@ -85,7 +107,8 @@ app_configuration:
   connector:
     api: {
       alpha_vantage: *alpha_vantage,
-      yahoo_finance: *yahoo_finance
+      yahoo_finance: *yahoo_finance,
+      twelve_data: *twelve_data,
     }
     file: {
       local_fs: *local_fs
@@ -98,8 +121,9 @@ app_configuration:
       open_telemetry: *telemetry
     }
   operation: {
-    intraday_stock: *intraday_stock,
-    intraday_chart: *intraday_chart
+    alpha_vantage_intraday_stock: *alpha_vantage_intraday_stock,
+    twelve_data_intraday_stock: *twelve_data_intraday_stock,
+    yahoo_finance_intraday_chart: *yahoo_finance_intraday_chart
   }
   cronjob:
     - *get_intraday_stock
