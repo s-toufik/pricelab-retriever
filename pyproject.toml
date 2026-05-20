@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pricelab-retriever"
-version = "0.1.0"
+version = "0.1.00"
 authors = [
     { name="Toufik Saouchi", email="toufik.saouchi@gmail.com" },
 ]
-description = "description"
+description = "market price retrieval system"
 readme = "README.md"
 requires-python = ">=3.14"
 classifiers = [
@@ -20,8 +20,9 @@ dependencies = [
     "python-dotenv",
     "fastapi",
     "uvicorn[standard]",
+    "uvloop",
     "pydantic>=2",
-    "pricelab-core==0.4.24"
+    "pricelab-core==0.4.32"
 ]
 
 [dependency-groups]
@@ -31,8 +32,7 @@ dev = [
     "pytest-asyncio",
     "ruff",
     "mypy",
-    "Pyright",
-    "mypy"
+    "Pyright"
 ]
 
 [tool.ruff]
