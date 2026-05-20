@@ -1,9 +1,8 @@
 from typing import cast
 
-from pricelab_core.bootstrap.dependency_injection.common import logger
+from pricelab_core.infrastructure.app_configuration.enum.connector_type import ConnectorType
 from pricelab_core.infrastructure.app_configuration.model.configuration import AppConfiguration
-from pricelab_core.infrastructure.datasource.enum.data_source_type import DataSourceType
-from pricelab_core.infrastructure.datasource.external_api.model.source import ApiSource
+from pricelab_core.infrastructure.app_configuration.model.connector import ApiConnector
 
 from pricelab_core.infrastructure.http.configuration.circuite_breaker_configuration import CircuitBreakerSettings
 from pricelab_core.infrastructure.http.configuration.retry_configuration import RetrySettings
@@ -28,7 +27,6 @@ class AlphaVantageClientFactory:
 
     def create(self) -> ResilientHttpClient:
         api_configuration = self._load_configuration()
-        logger.info("Creating Alpha Vantage resilient client")
         base_client = self._create_base_client(api_configuration)
         retry_policy = self._create_retry_policy(api_configuration)
         circuit_breaker = self._create_circuit_breaker(api_configuration)
@@ -40,26 +38,26 @@ class AlphaVantageClientFactory:
             trace_manager=self._telemetry,
         )
 
-    def _load_configuration(self) -> ApiSource:
-        datasource = self._configuration.datasource
-        api_configuration = cast(ApiSource, datasource[DataSourceType.api]["alpha_vantage"])
+    def _load_configuration(self) -> ApiConnector:
+        connector = self._configuration.connector
+        api_configuration = cast(ApiConnector, connector[ConnectorType.api]["alpha_vantage"])
         if api_configuration is None:
             raise ValueError("Alpha Vantage configuration is missing")
         return api_configuration
 
     @staticmethod
-    def _create_base_client(api_configuration: ApiSource) -> HttpClient:
+    def _create_base_client(api_configuration: ApiConnector) -> HttpClient:
         return AioHttpClient(base_url=api_configuration.base_url, timeout=api_configuration.timeout)
 
     @staticmethod
-    def _create_retry_policy(api_configuration: ApiSource) -> Retry:
+    def _create_retry_policy(api_configuration: ApiConnector) -> Retry:
         settings = RetrySettings()
         settings.retries = api_configuration.retry
 
         return RetryPolicy(settings)
 
     @staticmethod
-    def _create_circuit_breaker(api_configuration: ApiSource) -> CircuitBreakerPolicy:
+    def _create_circuit_breaker(api_configuration: ApiConnector) -> CircuitBreakerPolicy:
         settings = CircuitBreakerSettings()
         settings.failure_threshold = max(1, api_configuration.retry - 1)
         return CircuitBreakerPolicy(settings)
