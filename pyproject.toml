@@ -22,7 +22,7 @@ dependencies = [
     "uvicorn[standard]",
     "uvloop",
     "pydantic>=2",
-    "pricelab-core==0.4.32"
+    "pricelab-core==0.4.34"
 ]
 
 [dependency-groups]
