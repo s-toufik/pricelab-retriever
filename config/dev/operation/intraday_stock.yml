@@ -6,6 +6,7 @@ operation:
     method: GET
     parameters:
       function: TIME_SERIES_WEEKLY
+      symbol: APL, IBM, MSFT, GOOG
 
   twelve_data_intraday_stock:
     name: intraday_stock
@@ -13,6 +14,6 @@ operation:
     endpoint: /time_series
     method: GET
     parameters:
-      symbol: ["AAPL"]
+      symbol: APL, IBM, MSFT, GOOG
       interval: 5min
       apikey: demo
