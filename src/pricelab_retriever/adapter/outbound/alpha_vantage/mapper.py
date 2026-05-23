@@ -3,18 +3,19 @@ from typing import List
 from pricelab_core.domain.model.candles.candle import Candle
 
 
-class Mapper:
+class AlphaVantageMapper:
     @staticmethod
-    def to_candles(raw: dict, symbol: str) -> List[Candle]:
+    def to_candles(raw: dict) -> List[Candle]:
         result: List[Candle] = []
         time_series_key = next(
-            (k for k in raw if k.startswith("Time Series")),
+            (key for key in raw.keys() if "time series" in key.lower()),
             None,
         )
 
         if time_series_key is None:
             return result
 
+        symbol = raw["Meta Data"]["2. Symbol"]
         time_series = raw[time_series_key]
 
         return [
