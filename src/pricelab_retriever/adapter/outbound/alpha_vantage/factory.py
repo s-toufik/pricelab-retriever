@@ -45,11 +45,13 @@ class AlphaVantageFactory:
         return AioHttpClient(base_url=self._settings.connector.base_url, timeout=self._settings.connector.timeout)
 
     def _create_retry_policy(self) -> Retry:
-        retry_settings = RetrySettings()
-        retry_settings.retries = self._settings.connector.retry
+        retry_settings = RetrySettings(
+            retries=self._settings.connector.retry,
+        )
         return RetryPolicy(retry_settings)
 
     def _create_circuit_breaker(self) -> CircuitBreakerPolicy:
-        settings = CircuitBreakerSettings()
-        settings.failure_threshold = max(1, self._settings.connector.retry - 1)
+        settings = CircuitBreakerSettings(
+            failure_threshold=max(1, self._settings.connector.retry - 1)
+        )
         return CircuitBreakerPolicy(settings)
