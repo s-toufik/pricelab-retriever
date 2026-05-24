@@ -5,7 +5,7 @@ from pricelab_core.infrastructure.app_configuration.adapter.load_configuration i
 from pricelab_core.infrastructure.app_configuration.adapter.omega_configuration_reader import OmegaConfigurationReader
 from pricelab_core.infrastructure.app_configuration.enum.run_type_environment import RunTypeEnvironment
 from pricelab_core.infrastructure.app_configuration.model.configuration import AppConfiguration
-from pricelab_core.bootstrap.dependency_injection.common import logger
+from pricelab_core.bootstrap.dependency_injection.logging import logger
 from pricelab_core.infrastructure.app_configuration.port.configuration import Configuration
 from pricelab_core.infrastructure.app_configuration.port.configuration_reader import ConfigurationReader
 

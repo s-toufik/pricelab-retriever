@@ -3,7 +3,7 @@ from pricelab_core.infrastructure.http.context.request_context import request_id
 from pricelab_retriever.adapter.inbound.rest.schema.intraday_stock_request import IntradayStockRequest
 from pricelab_retriever.adapter.inbound.rest.schema.intraday_stock_response import IntradayStockResponse
 from pricelab_retriever.application.port.inbound.get_intraday_stock import GetIntradayStock
-from pricelab_core.bootstrap.dependency_injection.common import logger
+from pricelab_core.bootstrap.dependency_injection.logging import logger
 
 
 class IntradayStockController:

@@ -3,7 +3,7 @@ from collections.abc import AsyncGenerator
 
 from fastapi import FastAPI
 from pricelab_core.infrastructure.http.middleware.request_id_middleware import RequestIDMiddleware
-from pricelab_core.bootstrap.dependency_injection.common import logger
+from pricelab_core.bootstrap.dependency_injection.logging import logger
 
 from pricelab_retriever.bootstrap.container.container import Container
 
