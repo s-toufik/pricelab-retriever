@@ -127,16 +127,16 @@ Examples:
 
 ```yaml
 connector:
-  alpha_vantage:
-    name: alpha_vantage
+  <connector_tag>:
+    name: <connector name>
     type: api
-    base_url: https://www.alphavantage.co
+    base_url: <connector base url>
     timeout: 5
     retry: 3
     auth:
       type: token
       key_name: apikey
-      key_value: ${oc.env:ALPHA_VANTAGE_API_KEY}
+      key_value: ${oc.env:connector_api_key}
 ```
 
 ---
@@ -145,14 +145,14 @@ connector:
 
 ```yaml
 operation:
-  alpha_vantage_intraday_stock:
-    name: intraday_stock
-    connector: ${connector.alpha_vantage}
-    endpoint: /query
+  <operation_tag>:
+    name: <operation name>
+    connector: ${connector.connector_tag}
+    endpoint: <endpoint>
     method: GET
     parameters:
-      function: TIME_SERIES_WEEKLY
-      symbol: APL, IBM, MSFT, GOOG
+      <parameter1>: <value1>
+      <parameter2>: <value2>
 ```
 
 ---
@@ -161,9 +161,9 @@ operation:
 
 ```yaml
 cronjob:
-  get_intraday_stock:
-    name: get_intraday_stock
-    operation: ${operation.alpha_vantage_intraday_stock}
+  <cronjob_tag>:
+    name: <cronjob name>
+    operation: ${operation.operation_tag}
     cron: "*/5 9-17 * * 1-5"
 ```
 
