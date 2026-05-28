@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 
-from pricelab_retriever.adapter.inbound.rest.schema.intraday_stock_request import IntradayStockRequest
+from pricelab_retriever.adapter.inbound.rest.schema.intraday_request import IntradayRequest
 from pricelab_retriever.adapter.inbound.rest.controller.get_intraday_stock import IntradayStockController
-from pricelab_retriever.adapter.inbound.rest.schema.intraday_stock_response import IntradayStockResponse
+from pricelab_retriever.adapter.inbound.rest.schema.intraday_response import IntradayResponse
 
 
 class IntradayStockRouter:
@@ -18,7 +18,7 @@ class IntradayStockRouter:
         return self._router
 
     def _router_registry(self):
-        self._router.add_api_route("/intraday", self._get_intraday_stock, methods=["GET"])
+        self._router.add_api_route("/intraday", self._get_intraday_stock, methods=["GET"], response_model=IntradayResponse)
 
-    async def _get_intraday_stock(self, request: IntradayStockRequest = Depends()) -> IntradayStockResponse:
+    async def _get_intraday_stock(self, request: IntradayRequest = Depends()) -> IntradayResponse:
         return await self._controller.get_intraday_stock(request)
