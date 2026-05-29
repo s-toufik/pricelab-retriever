@@ -3,8 +3,8 @@ from pricelab_core.domain.model.quotes.quote import Quote
 
 from pricelab_retriever.adapter.inbound.rest.schema.quote_schema import QuoteSchema
 
-class QuoteSchemaMapper:
 
+class QuoteSchemaMapper:
     @staticmethod
     def map(source: Sequence[Quote]) -> Iterator[QuoteSchema]:
         for item in source:
@@ -15,5 +15,5 @@ class QuoteSchemaMapper:
                 bid=item.bid,
                 ask=item.ask,
                 last=item.last,
-                volume=item.volume
+                volume=item.volume,
             )

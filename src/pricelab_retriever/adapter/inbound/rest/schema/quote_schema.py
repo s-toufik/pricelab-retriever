@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class QuoteSchema(BaseModel):
     source: str
     symbol: str

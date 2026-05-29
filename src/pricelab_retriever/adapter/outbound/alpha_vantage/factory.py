@@ -51,7 +51,5 @@ class AlphaVantageFactory:
         return RetryPolicy(retry_settings)
 
     def _create_circuit_breaker(self) -> CircuitBreakerPolicy:
-        settings = CircuitBreakerSettings(
-            failure_threshold=max(1, self._settings.connector.retry - 1)
-        )
+        settings = CircuitBreakerSettings(failure_threshold=max(1, self._settings.connector.retry - 1))
         return CircuitBreakerPolicy(settings)
