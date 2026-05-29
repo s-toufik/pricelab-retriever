@@ -18,7 +18,7 @@ class StockCandleRouter:
         return self._router
 
     def _router_registry(self):
-        self._router.add_api_route("/candle", self._get_intraday_stock, methods=["GET"], response_model=StockResponse)
+        self._router.add_api_route("/candle", self._get_stock_candle, methods=["GET"], response_model=StockResponse)
 
-    async def _get_intraday_stock(self, request: CandleRequest = Depends()) -> StockResponse:
+    async def _get_stock_candle(self, request: CandleRequest = Depends()) -> StockResponse:
         return await self._controller.get_stock_candle(request)
