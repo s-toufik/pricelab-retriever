@@ -27,7 +27,7 @@ def create_app() -> FastAPI:
 
     application = FastAPI(title="PriceLab Retriever", lifespan=lambda app: lifespan(app, container))
 
-    routers.append(container.build_intraday_stock_router())
+    routers.append(container.stock_candle_router)
     for route in routers:
         application.include_router(route)
 
