@@ -4,29 +4,31 @@ from typing import TypeVar, Iterator, overload, Literal
 from pricelab_core.domain.model.candles.candle import Candle
 from pricelab_core.domain.model.quotes.quote import Quote
 
-from pricelab_retriever.application.port.outbound.market_data_mapper import MarketDataMapper
+from pricelab_retriever.application.port.outbound.market_mapper import MarketMapper
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 class MapperStrategy(Enum):
     Candle = "candle"
     Quote = "quote"
 
+
 class AlphaVantageMapper:
     @overload
     @staticmethod
-    def create(strategy: Literal[MapperStrategy.Candle]) -> MarketDataMapper[dict, Candle]: ...
+    def create(strategy: Literal[MapperStrategy.Candle]) -> MarketMapper[dict, Candle]: ...
     @overload
     @staticmethod
-    def create(strategy: Literal[MapperStrategy.Quote]) -> MarketDataMapper[dict, Quote]: ...
+    def create(strategy: Literal[MapperStrategy.Quote]) -> MarketMapper[dict, Quote]: ...
 
     @staticmethod
-    def create(strategy: MapperStrategy) -> MarketDataMapper:
+    def create(strategy: MapperStrategy) -> MarketMapper:
         match strategy:
             case MapperStrategy.Candle:
                 return CandleMapper()
             case MapperStrategy.Quote:
-                raise NotImplemented
+                raise NotImplementedError()
             case _:
                 raise ValueError(f"Unsupported strategy: {strategy}")
 

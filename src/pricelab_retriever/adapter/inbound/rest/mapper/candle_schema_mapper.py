@@ -5,7 +5,6 @@ from pricelab_retriever.adapter.inbound.rest.schema.candle_schema import CandleS
 
 
 class CandleSchemaMapper:
-
     @staticmethod
     def map(source: Sequence[Candle]) -> Iterator[CandleSchema]:
         for item in source:
@@ -17,5 +16,5 @@ class CandleSchemaMapper:
                 high=item.high,
                 low=item.low,
                 close=item.close,
-                volume=item.volume
+                volume=item.volume,
             )

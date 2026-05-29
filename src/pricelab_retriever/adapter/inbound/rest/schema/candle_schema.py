@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class CandleSchema(BaseModel):
     source: str
     symbol: str

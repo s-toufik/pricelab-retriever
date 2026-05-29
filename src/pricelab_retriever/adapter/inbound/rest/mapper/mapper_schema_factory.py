@@ -12,7 +12,6 @@ from pricelab_retriever.adapter.inbound.rest.schema.quote_schema import QuoteSch
 
 
 class MapperSchemaFactory:
-
     @overload
     @staticmethod
     def create(strategy: Literal[MapperSchemaStrategy.Candle]) -> SchemaMapper[Candle, CandleSchema]: ...
