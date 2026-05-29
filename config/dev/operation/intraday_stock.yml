@@ -1,6 +1,6 @@
 operation:
-  alpha_vantage_intraday_stock:
-    name: intraday_stock
+  alpha_vantage_stock:
+    name: market_stock
     connector: ${connector.alpha_vantage}
     endpoint: /query
     method: GET
@@ -8,8 +8,8 @@ operation:
       function: TIME_SERIES_WEEKLY
       symbol: APL, IBM, MSFT, GOOG
 
-  twelve_data_intraday_stock:
-    name: intraday_stock
+  twelve_data_stock:
+    name: market_stock
     connector: ${connector.twelve_data}
     endpoint: /time_series
     method: GET

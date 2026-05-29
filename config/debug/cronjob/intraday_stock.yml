@@ -1,5 +1,5 @@
 cronjob:
-  get_intraday_stock:
-    name: get_intraday_stock
-    operation: ${operation.alpha_vantage_intraday_stock}
+  get_alpha_vantage_stock:
+    name: get_stock
+    operation: ${operation.alpha_vantage_stock}
     cron: "*/5 9-17 * * 1-5"

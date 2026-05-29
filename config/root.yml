@@ -14,8 +14,8 @@ app_configuration:
       open_telemetry: ${connector.telemetry}
 
   operation:
-    alpha_vantage_intraday_stock: ${operation.alpha_vantage_intraday_stock}
-    twelve_data_intraday_stock: ${operation.twelve_data_intraday_stock}
+    alpha_vantage_stock: ${operation.alpha_vantage_stock}
+    twelve_data_stock: ${operation.twelve_data_stock}
 
   cronjob:
-    - ${cronjob.get_intraday_stock}
+    - ${cronjob.get_alpha_vantage_stock}

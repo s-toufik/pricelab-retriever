@@ -48,7 +48,7 @@ class AlphaVantageSettings:
         return cast(ApiConnector, self._application_configuration.connector[ConnectorType.api]["alpha_vantage"])
 
     def _get_operation(self) -> ApiOperation:
-        return cast(ApiOperation, self._application_configuration.operation.get("alpha_vantage_intraday_stock"))
+        return cast(ApiOperation, self._application_configuration.operation.get("alpha_vantage_stock"))
 
     def _get_auth(self) -> TokenAuth:
         return cast(TokenAuth, self._get_connector().auth)

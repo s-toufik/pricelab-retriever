@@ -22,3 +22,5 @@ wheels/
 .hypothesis
 sandbox
 sandbox/*
+profile.html
+*profile*.html
