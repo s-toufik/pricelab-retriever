@@ -1,4 +1,4 @@
-from typing import Dict, Sequence
+from typing import Dict, Sequence, Iterator
 
 from pricelab_core.domain.model.candles.candle import Candle
 from pricelab_core.infrastructure.http.port.resilient_http_client import ResilientHttpClient
@@ -14,10 +14,9 @@ class AlphaVantageMarketCandle:
         self._settings = settings
         self._mapper = mapper
 
-    async def fetch(self, query: MarketCandleQuery) -> Sequence[Candle]:
+    async def fetch(self, query: MarketCandleQuery) -> Iterator[Candle]:
         raw: dict = await self._client.get(self._settings.operation.endpoint, params=self._get_client_params(query))
-        candles: Sequence[Candle] = tuple(self._mapper.map(raw))
-        return candles
+        return self._mapper.map(raw)
 
     def _get_client_params(self, query: MarketCandleQuery) -> Dict[str, str]:
         params = {
