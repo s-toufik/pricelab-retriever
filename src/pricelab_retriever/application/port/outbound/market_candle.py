@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Protocol, Sequence, Optional
+from typing import Protocol, Optional, Iterator
 
 from pricelab_core.domain.model.candles.candle import Candle
 
@@ -11,4 +11,4 @@ class MarketCandleQuery:
 
 
 class MarketCandle(Protocol):
-    async def fetch(self, query: MarketCandleQuery) -> Sequence[Candle]: ...
+    async def fetch(self, query: MarketCandleQuery) -> Iterator[Candle]: ...

@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Sequence, Iterator
 from pricelab_core.domain.model.candles.candle import Candle
 
 from pricelab_retriever.application.port.inbound.stock_candle import StockCandleQuery
@@ -11,4 +11,5 @@ class StockCandleUseCase:
 
     async def __call__(self, query: StockCandleQuery) -> Sequence[Candle]:
         _query = MarketCandleQuery(symbol=query.symbol, interval=query.interval)
-        return await self._candle_adapter.fetch(_query)
+        candles: Iterator[Candle] = await self._candle_adapter.fetch(_query)
+        return tuple(candles)
