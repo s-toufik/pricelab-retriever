@@ -15,12 +15,9 @@ class AlphaVantageMarketCandle:
         self._mapper = mapper
 
     async def fetch(self, query: MarketCandleQuery) -> Sequence[Candle]:
-        raw: dict = await self._client.get(self._get_path(), params=self._get_client_params(query))
+        raw: dict = await self._client.get(self._settings.operation.endpoint, params=self._get_client_params(query))
         candles: Sequence[Candle] = tuple(self._mapper.map(raw))
         return candles
-
-    def _get_path(self) -> str:
-        return self._settings.connector.base_url + self._settings.operation.endpoint
 
     def _get_client_params(self, query: MarketCandleQuery) -> Dict[str, str]:
         params = {

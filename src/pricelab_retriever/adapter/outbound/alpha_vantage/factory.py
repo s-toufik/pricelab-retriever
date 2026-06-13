@@ -6,6 +6,7 @@ from pricelab_core.infrastructure.http.adapter.aiohttp_client import AioHttpClie
 from pricelab_core.infrastructure.http.adapter.circuit_breaker_policy import CircuitBreakerPolicy
 from pricelab_core.infrastructure.http.adapter.resilient_client import ResilientClient
 from pricelab_core.infrastructure.http.adapter.retry_policy import RetryPolicy
+from pricelab_core.infrastructure.http.port.circuit_breaker import CircuitBreaker
 from pricelab_core.infrastructure.http.port.resilient_http_client import ResilientHttpClient
 from pricelab_core.infrastructure.http.port.retry import Retry
 from pricelab_core.infrastructure.http.port.http_client import HttpClient
@@ -50,6 +51,6 @@ class AlphaVantageFactory:
         )
         return RetryPolicy(retry_settings)
 
-    def _create_circuit_breaker(self) -> CircuitBreakerPolicy:
+    def _create_circuit_breaker(self) -> CircuitBreaker:
         settings = CircuitBreakerSettings(failure_threshold=max(1, self._settings.connector.retry - 1))
         return CircuitBreakerPolicy(settings)

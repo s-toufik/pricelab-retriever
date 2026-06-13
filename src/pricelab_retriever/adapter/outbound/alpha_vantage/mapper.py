@@ -18,6 +18,7 @@ class AlphaVantageMapper:
     @overload
     @staticmethod
     def create(strategy: Literal[MapperStrategy.Candle]) -> MarketMapper[dict, Candle]: ...
+
     @overload
     @staticmethod
     def create(strategy: Literal[MapperStrategy.Quote]) -> MarketMapper[dict, Quote]: ...
@@ -28,9 +29,15 @@ class AlphaVantageMapper:
             case MapperStrategy.Candle:
                 return CandleMapper()
             case MapperStrategy.Quote:
-                raise NotImplementedError()
+                return QuoteMapper()
             case _:
                 raise ValueError(f"Unsupported strategy: {strategy}")
+
+
+class QuoteMapper:
+    @staticmethod
+    def map(source: dict) -> Iterator[Quote]:
+        raise NotImplementedError()
 
 
 class CandleMapper:
